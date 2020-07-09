@@ -1,6 +1,6 @@
 library(tidyverse)
-setwd("D:/00_EPSILON/06_Formation/R/R_beginners/")
 
+setwd("~/EF-form-R-data/EF-form-R-data")
 # 01: Première démo de R ------------------------
 
 2 + 2
@@ -221,24 +221,24 @@ titanic %>%
 
 # select()
 names(titanic)
-titanic %>% select(survived, sex, age)
-titanic %>% select(2:4)
-titanic %>% select(starts_with("s"))
-titanic %>% select(ends_with("e"))
-titanic %>% select(contains("r"))
+titanic %>% dplyr::select(survived, sex, age)
+titanic %>% dplyr::select(2:4)
+titanic %>% dplyr::select(starts_with("s"))
+titanic %>% dplyr::select(ends_with("e"))
+titanic %>% dplyr::select(contains("r"))
 
 keep.vars <- c("age", "name")
-titanic %>% select(one_of(keep.vars))
-titanic %>% select(-one_of(keep.vars))
+titanic %>% dplyr::select(one_of(keep.vars))
+titanic %>% dplyr::select(-one_of(keep.vars))
 
-titanic %>% select(name, everything())
-titanic %>% select(nom = name, everything())
+titanic %>% dplyr::select(name, everything())
+titanic %>% dplyr::select(nom = name, everything())
 
 # filter ()
-titanic %>% filter(survived == "Yes")
-titanic %>% filter(fare > 200)
-titanic %>% filter(fare > 200 & survived == "Yes")
-titanic %>% filter(fare > 200 | survived == "Yes")
+titanic %>% dplyr::filter(survived == "Yes")
+titanic %>% dplyr::filter(fare > 200)
+titanic %>% dplyr::filter(fare > 200 & survived == "Yes")
+titanic %>% dplyr::filter(fare > 200 | survived == "Yes")
 
 # Tris et comptages
 
@@ -258,11 +258,11 @@ bind_cols(df1, df2)
 
 titanic %>% count(cabin, sort = TRUE)
 
-df3 <- titanic %>% filter(cabin == "G6")
-df4 <- titanic %>% filter(cabin == "F2")
+df3 <- titanic %>% dplyr::filter(cabin == "G6")
+df4 <- titanic %>% dplyr::filter(cabin == "F2")
 bind_rows(df3, df4)
 
-df5 <- titanic %>% sample_n(10) %>% select(name)
+df5 <- titanic %>% sample_n(10) %>% dplyr::select(name)
 inner_join(df5, titanic)
 
 titanic %>%
@@ -300,7 +300,7 @@ mybox$stats
 summary(titanic$age)
 
 (titanic_high <- titanic %>%
-        filter(age > max(mybox$stats))) %>%
+    dplyr::filter(age > max(mybox$stats))) %>%
     arrange(desc(age))
 
 titanic %>% top_n(5, age)
@@ -340,7 +340,7 @@ plot(check_values)
 # Tests statistiques ================
 
 # Corrélation
-penguins <- readRDS("penguins.rds")
+penguins <- readRDS("data/penguins.rds")
 
 glimpse(penguins)
 
@@ -403,5 +403,7 @@ echelle <- function(v) {
     return(res)
     }
 echelle(chiffres)
+plot(density(chiffres))
 
+plot(density(echelle(chiffres)))
 
