@@ -17,7 +17,10 @@ seq(1, 10, 1)
 rnorm(10)
 
 x <- c(2, 8, 7, 4, 5, 2, 7, 9, 4, 10)
+class(x)
 mean(x)
+class(m)
+
 x[2]
 x[2:4]
 rank(x)
@@ -25,11 +28,20 @@ rank(sort(x))
 plot(x)
 hist(x)
 
-demo_func <- function(toto) {
-    x <- rnorm(toto)
+### CREER UNE FONCTION QUI REPRESENTE LA DISTRIBUTION D'UNE VAR GAUSSIENNE (loi normale)
+
+x <- rnorm(1000)
+plot(density(x))
+
+# cette fonction prend en entree l'argument var 
+# elle cree une va qui suit une loi normale de taille var
+# on represente la distrib hist
+demo_func <- function(var) {
+    x <- rnorm(var)
     hist(sort(x))
 }
-demo_func(100)
+
+demo_func(1000)
 
 
 
@@ -57,7 +69,9 @@ unlist(maliste)
 # dataframes
 mydf <- data.frame(colonne1 = myvec1,
                    colonne2 = myvec2)
-mydf
+names(mydf)<-c("var1","var2")
+names(mydf)
+
 
 # matrices
 (mymat1 <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3))
@@ -72,8 +86,16 @@ mydf[, 2]
 mydf[1, 1]
 
 # par nom
-mydf$colonne1
-mydf$colonne2
+mydf$var1
+mydf$var2
+
+# on compare, ca renvoie un booléen TRUE OU FALSE
+x<-c("a","b")
+y<-c(2,3)
+x==y
+
+# affectation , x<-1
+#x=1
 
 
 # Opérateurs ===========
@@ -121,6 +143,7 @@ ceiling(myvec1 + 0.34)
 
 # Import / export de données ================
 saveRDS(mydf, "mydf.rds")
+rm(mydf)
 mydf_imported <- readRDS("mydf.rds")
 
 write.table(mydf, "mydf.txt")
@@ -178,6 +201,21 @@ table(mytable$z1,
       mytable$z2)
 prop.table(table(mytable$z1,
                  mytable$z2))
+
+mydf2<-mydf_imported[3,]
+
+# STR ca veut dire STRUCTURE de l'objet
+str(mydf_imported)
+summary(mydf_imported)
+mydf_imported$colonne2<-as.factor(mydf_imported$colonne2)
+summary(mydf_imported)
+
+table(mydf_imported$colonne2)
+# FAIRE UN TRI CROISE
+t<-table(titanic$Pclass,titanic$Survived)
+# PROFIL LIGNES = pourcentage en lignes d'un tric croisé
+prop.table(table(titanic$Pclass,titanic$Survived),margin=1)
+
 
 # Fonctions graphiques ============
 
@@ -296,7 +334,7 @@ summary(titanic$age)
 # Valeurs extrêmes ==============================
 
 (mybox <- boxplot(titanic$age))
-mybox$stats
+mybox$statsr
 summary(titanic$age)
 
 (titanic_high <- titanic %>%
